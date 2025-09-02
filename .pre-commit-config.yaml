@@ -14,8 +14,8 @@ repos:
     hooks:
       - id: black
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v4.0.0-alpha.8
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: v3.6.2
     hooks:
       - id: prettier
 
@@ -36,18 +36,18 @@ repos:
         require_serial: true # shellcheck can detect sourcing this way
 
   - repo: https://github.com/pycqa/flake8
-    rev: "7.2.0"
+    rev: "7.3.0"
     hooks:
       - id: flake8
 
   - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.29
+    rev: v0.1.30
     hooks:
       - id: terraform-fmt
       - id: tflint
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: end-of-file-fixer
       - id: check-case-conflict
