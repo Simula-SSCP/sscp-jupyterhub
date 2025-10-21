@@ -82,6 +82,8 @@ We need to enable these APIs:
 - update helm chart dependency versions in `jupyterhub/Chart.yaml`
 - update packages in `image/pixi.toml` and update the image (see below)
 - update `jupyterhub.singleuser.image` to match GKE_PROJECT and IMAGE_TAG
+- deploy via helm with `make helm-upgrade` (more below)
+- setup DNS to point to the proxy-public service (`kubectl get svc`)
 
 ## Actions
 
@@ -182,6 +184,67 @@ make image-test
 This loads the image built with `make image`, and runs `pytest` in the `image-test` directory.
 Write any tests here that would be useful (e.g. running through a few sample lessons).
 This should be part of building the image when adding image-building to CI.
+
+### helm upgrade
+
+The jupyterhub deployment is managed by [helm].
+It is set up and updated by the command:
+
+```
+make helm-upgrade
+```
+
+You shouldn't need to run this command very often,
+only when you change these files:
+
+- jupyterhub/Chart.yaml
+- config.yaml
+- secrets.yaml
+
+The image gets updated automatically, due to the
+
+```yaml
+imagePullPolicy: Always
+```
+
+configuration.
+
+### DNS, HTTPS
+
+The hub should only be accessible via HTTPS.
+This means setting up DNS.
+Up to now, I have done this personally on `sscp.minrk.net`.
+If you want to change the host, you will need to do this in:
+
+- github oauth application callback url config (on github.com)
+- `oauth_callback_url` in secrets.yaml
+- a few hostnames in `config.yaml`
+
+After deploying via `make helm-upgrade`, get the public ip via:
+
+```
+kubectl get ingress proxy-public --output yaml
+```
+
+and look for:
+
+```
+status:
+  loadBalancer:
+    ingress:
+    - ip: 1.2.3.4
+```
+
+This is the public ip to add to your DNS A record.
+If grafana and prometheus have different public ips for their ingresses, they will also need DNS records
+(they may be different with autopilot, but would not be for a typical ingress controller).
+
+### Authentication
+
+Authentication uses GitHub OAuth, and is configured in `secrets.yaml`.
+It is currently an application on my GitHub account, so you'll probably want to set up a new one.
+
+When you set up a new one, you'll need to update client id, secret in `secrets.yaml`.
 
 ### Scaling
 
