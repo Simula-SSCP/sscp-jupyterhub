@@ -14,6 +14,8 @@ You need these tools set up:
 - [docker] client (engine not required, but can be used)
 - [helm] to deploy and update jupyterhub
 - [git-crypt] for encrypting credentials in config
+- [kubectx] Power tools for kubectl
+
 
 [gcloud cli]: https://cloud.google.com/cli
 [OpenTofu]: https://opentofu.org
@@ -21,6 +23,8 @@ You need these tools set up:
 [docker]: https://www.docker.com
 [helm]: https://helm.sh
 [git-crypt]: https://github.com/AGWA/git-crypt
+[kubectx]: https://github.com/ahmetb/kubectx
+
 
 ## Structure
 
