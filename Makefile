@@ -1,5 +1,5 @@
-GKE_PROJECT=sscp-2025
-IMAGE_TAG=2025
+GKE_PROJECT=sscp-2026
+IMAGE_TAG=2026
 GKE_REGION=europe-west1
 GKE_ZONE=$(GKE_REGION)-b
 IMAGE=$(GKE_REGION)-docker.pkg.dev/$(GKE_PROJECT)/sss/simula-summer-school:$(IMAGE_TAG)
