@@ -33,8 +33,8 @@ jupyterhub:
     storage:
       homeMountPath: /home/user
     image:
-      name: europe-west1-docker.pkg.dev/sscp-2025/sss/simula-summer-school
-      tag: "2025"
+      name: europe-west1-docker.pkg.dev/sscp-2026/sss/simula-summer-school
+      tag: "2026"
       pullPolicy: Always
     memory:
       limit: 2G
