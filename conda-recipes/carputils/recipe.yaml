@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: carputils
-  version: "18.0"
+  version: "19.0"
   build: 0
 
 package:
@@ -14,7 +14,7 @@ source:
   # get version from submodule in opencarp release, e.g.
   # https://git.opencarp.org/openCARP/openCARP/-/tree/v18.0/external
   git: https://git.opencarp.org/openCARP/carputils
-  rev: e66c3ca6c5016d12b651a4e58a54430af3b91a44
+  rev: 53531ec98634f781e16726878b3472392234b80a
 
 build:
   number: ${{ build }}

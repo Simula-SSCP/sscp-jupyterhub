@@ -1,6 +1,8 @@
 #!/bin/bash
 set -exuo pipefail
 
+ln -sf $CPP $BUILD_PREFIX/bin/cpp
+
 mkdir _build
 cd _build
 
