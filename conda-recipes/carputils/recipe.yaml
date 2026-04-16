@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: carputils
   version: "19.0"
-  build: 0
+  build: 1
 
 package:
   name: ${{ name | lower }}
@@ -21,7 +21,7 @@ build:
   script: |
     python -m pip install --no-binary :all: --no-deps -vv .
   skip:
-    - match(python, "<3.11")
+    - match(python, "<3.12 | >=3.13")  
 
 requirements:
   build:
@@ -34,7 +34,6 @@ requirements:
     - setuptools
   run:
     - opencarp ${{ version }}.*
-    - python
     # optional
     # - pandas
     # - scipy >=1.11

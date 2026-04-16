@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: opencarp
   version: 19.0
-  build: 0
+  build: 5
 
 package:
   name: ${{ name | lower }}
@@ -35,10 +35,11 @@ requirements:
     - libblas
     - liblapack
     - mpich
-    - petsc <3.25
+    - petsc >=3.24,<3.25
     - zlib
   run:
     - python >=3.6
+    - petsc >=3.24,<3.25
   run_exports:
     - ${{ pin_subpackage(name, exact=True) }}
 
