@@ -1,9 +1,9 @@
 [workspace]
-authors = ["Min RK <benjaminrk@simula.no>"]
-channels = ["conda-forge", "conda-forge/label/fenics-dev", "minrk"]
+authors = ["Henrik Finsberg <henriknf@simula.no>"]
+channels = ["conda-forge", "minrk", "finsberg"]
 name = "simula-summer-school"
 platforms = ["linux-64"]
-version = "2025"
+version = "2026"
 
 [tasks]
 
@@ -17,24 +17,21 @@ git = ">=2.49.0"
 
 # scientific packages
 mpich = ">=4"
-fenics-dolfinx = "0.9.*"
-fenics = { version = "2019.2.0.*", channel = "conda-forge/label/fenics-dev" }
-# specify pacakges from fenics-dev channel
-fenics-dolfin = { channel = "conda-forge/label/fenics-dev" }
-fenics-libdolfin = { channel = "conda-forge/label/fenics-dev" }
-fenics-ffc = { channel = "conda-forge/label/fenics-dev" }
-fenics-fiat = { channel = "conda-forge/label/fenics-dev" }
+fenics-dolfinx = "0.10.*"
+
 
 sympy = "<1.14"
-neuron = ">=8.2.4"
+
 lfpy = ">=2.3.2"
 python-neo = ">=0.14.1"
 browndye = ">=2023.12.29"
 brian2 = ">=2.8.0.4"
 
 # packaged in this repo:
-opencarp = { version = "18.0.*", channel = "minrk" }
-carputils = { version = "18.0.*", channel = "minrk" }
+opencarp = { version = "19.0.*", channel = "finsberg" }
+carputils = { version = "19.0.*", channel = "finsberg" }
+neuron = { version = "8.2.4", channel = "finsberg" }
+
 
 # basic Python
 black = ">=25.1.0"
