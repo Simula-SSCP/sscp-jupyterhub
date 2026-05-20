@@ -2,8 +2,8 @@ schema_version: 1
 
 context:
   name: opencarp
-  version: 19.0
-  build: 5
+  version: 18.0
+  build: 0
 
 package:
   name: ${{ name | lower }}
@@ -15,8 +15,9 @@ source:
   # tag: v${{ version }}
   # sha256: 24247ad5ee0ba876ee09f4db28d316fc9282f24a7b7f23ab0936a01a9679fe6f
   url: https://git.opencarp.org/openCARP/openCARP/-/archive/v${{ version }}/openCARP-v${{ version }}.tar.bz2
-  sha256: bac9780393b3ce204a7bda39bc1c06976707ec145c27f16c99720fbe62c29a6d
-
+  sha256: 30200911238991614d0ef288ce607e602533d785af05adbdd5aa1fd65a856f64
+  patches:
+    - cpp-env.patch
 
 build:
   number: ${{ build }}
@@ -35,11 +36,10 @@ requirements:
     - libblas
     - liblapack
     - mpich
-    - petsc >=3.24,<3.25
+    - petsc
     - zlib
   run:
     - python >=3.6
-    - petsc >=3.24,<3.25
   run_exports:
     - ${{ pin_subpackage(name, exact=True) }}
 

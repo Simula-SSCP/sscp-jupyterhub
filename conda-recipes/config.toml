@@ -1,1 +1,1 @@
-default-channels = ["conda-forge", "minrk", "finsberg"]
+default-channels = ["conda-forge", "minrk"]

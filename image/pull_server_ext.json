@@ -1,7 +1,0 @@
-{
-  "ServerApp": {
-    "jpserver_extensions": {
-      "pull_server_ext": true
-    }
-  }
-}

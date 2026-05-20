@@ -2,8 +2,8 @@ schema_version: 1
 
 context:
   name: carputils
-  version: "19.0"
-  build: 1
+  version: "18.0"
+  build: 0
 
 package:
   name: ${{ name | lower }}
@@ -14,14 +14,14 @@ source:
   # get version from submodule in opencarp release, e.g.
   # https://git.opencarp.org/openCARP/openCARP/-/tree/v18.0/external
   git: https://git.opencarp.org/openCARP/carputils
-  rev: 53531ec98634f781e16726878b3472392234b80a
+  rev: e66c3ca6c5016d12b651a4e58a54430af3b91a44
 
 build:
   number: ${{ build }}
   script: |
     python -m pip install --no-binary :all: --no-deps -vv .
   skip:
-    - match(python, "<3.12 | >=3.13")  
+    - match(python, "<3.11")
 
 requirements:
   build:
@@ -34,6 +34,7 @@ requirements:
     - setuptools
   run:
     - opencarp ${{ version }}.*
+    - python
     # optional
     # - pandas
     # - scipy >=1.11

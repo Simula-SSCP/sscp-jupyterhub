@@ -30,7 +30,6 @@ def test_puller_ext():
             print(f"Validating extension {name}.{ep_name}")
             assert extension_point.validate() in {None, True}
         ext.validate()
-
     assert "pull_server_ext" in m.extensions
 
 
@@ -45,20 +44,19 @@ def test_torch():
     import torch  # noqa
 
 
-# def test_dolfin():
-#     from dolfin import FiniteElement, FunctionSpace, UnitIntervalMesh, interval
+def test_dolfin():
+    from dolfin import FiniteElement, FunctionSpace, UnitIntervalMesh, interval
 
-#     mesh = UnitIntervalMesh(20)
-#     elem = FiniteElement("CG", interval, 1)
-#     W = FunctionSpace(mesh, elem)
+    mesh = UnitIntervalMesh(20)
+    elem = FiniteElement("CG", interval, 1)
+    W = FunctionSpace(mesh, elem)
 
 
 def test_dolfinx():
     # poisson tutorial
     # https://jsdokken.com/dolfinx-tutorial/chapter1/fundamentals_code.html
-    from mpi4py import MPI
     from dolfinx import mesh
-    import numpy
+    from mpi4py import MPI
 
     domain = mesh.create_unit_square(MPI.COMM_WORLD, 8, 8, mesh.CellType.quadrilateral)
 
@@ -97,11 +95,7 @@ def test_dolfinx():
     from dolfinx.fem.petsc import LinearProblem
 
     problem = LinearProblem(
-        a,
-        L,
-        bcs=[bc],
-        petsc_options={"ksp_type": "preonly", "pc_type": "lu"},
-        petsc_options_prefix="Poisson",
+        a, L, bcs=[bc], petsc_options={"ksp_type": "preonly", "pc_type": "lu"}
     )
     uh = problem.solve()
 
@@ -115,31 +109,31 @@ def test_neuron():
     from neuron import h, rxd  # noqa
 
 
-# @pytest.mark.parametrize(
-#     "notebook",
-#     [
-#         f"{lectures_dir}/L14 (FEniCS Mechanics)/L14_active_cube.ipynb",
-#         f"{lectures_dir}/L15 (EMI)/EMI.ipynb",
-#         # AI-LIF notebook is no longer complete (has fill-in exercises)
-#         # FIXME: there are no runnable pytorch notebooks
-#         # f"{lectures_dir}/L16 (Machine Learning)/AI-LIF.ipynb",
-#     ],
-# )
-# def test_notebook(notebook, needs_puller):
-#     import nbformat
-#     from nbconvert.preprocessors import ExecutePreprocessor
+@pytest.mark.parametrize(
+    "notebook",
+    [
+        f"{lectures_dir}/L14 (FEniCS Mechanics)/L14_active_cube.ipynb",
+        f"{lectures_dir}/L15 (EMI)/EMI.ipynb",
+        # AI-LIF notebook is no longer complete (has fill-in exercises)
+        # FIXME: there are no runnable pytorch notebooks
+        # f"{lectures_dir}/L16 (Machine Learning)/AI-LIF.ipynb",
+    ],
+)
+def test_notebook(notebook, needs_puller):
+    import nbformat
+    from nbconvert.preprocessors import ExecutePreprocessor
 
-#     with open(notebook) as f:
-#         nb = nbformat.read(f, as_version=4)
-#     p = ExecutePreprocessor()
-#     p.preprocess(nb)
+    with open(notebook) as f:
+        nb = nbformat.read(f, as_version=4)
+    p = ExecutePreprocessor()
+    p.preprocess(nb)
 
 
-# @pytest.mark.parametrize(
-#     "run_dir",
-#     [
-#         f"{lectures_dir}/Stream 1 (Cardiac Simulations)/01_EP_single_cell/01_basic_bench",
-#     ],
-# )
-# def test_run(run_dir):
-#     run([sys.executable, Path(run_dir) / "run.py"], check=True)
+@pytest.mark.parametrize(
+    "run_dir",
+    [
+        f"{lectures_dir}/Stream 1 (Cardiac Simulations)/01_EP_single_cell/01_basic_bench",
+    ],
+)
+def test_run(run_dir):
+    run([sys.executable, Path(run_dir) / "run.py"], check=True)

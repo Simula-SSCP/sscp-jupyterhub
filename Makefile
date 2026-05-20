@@ -1,5 +1,5 @@
-GKE_PROJECT=sscp-2026
-IMAGE_TAG=2026
+GKE_PROJECT=sscp-2025
+IMAGE_TAG=2025
 GKE_REGION=europe-west1
 GKE_ZONE=$(GKE_REGION)-b
 IMAGE=$(GKE_REGION)-docker.pkg.dev/$(GKE_PROJECT)/sss/simula-summer-school:$(IMAGE_TAG)
@@ -99,11 +99,11 @@ conda:
 	docker build -t conda-pkgs conda-recipes
 
 conda-rsync:
-	rsync -av --delete -e 'gcloud compute ssh --project $(GKE_PROJECT) --zone $(GKE_ZONE) $(BUILDER_NAME) --' conda-recipes/ env:$(PWD)/conda-recipes/
+	rsync -av --delete -e 'gcloud compute ssh --project $(GKE_PROJECT) $(BUILDER_NAME) --' conda-recipes/ :$(PWD)/conda-recipes/
 
 conda-fetch:
-	rsync -av --delete -e 'gcloud compute ssh --project $(GKE_PROJECT) --zone $(GKE_ZONE) $(BUILDER_NAME) --' env:$(PWD)/conda-bld/linux-64/ $(PWD)/conda-bld/linux-64/
-	
+	rsync -av --delete -e 'gcloud compute ssh --project $(GKE_PROJECT) $(BUILDER_NAME) --' :$(PWD)/conda-bld/linux-64/ $(PWD)/conda-bld/linux-64/
+
 conda/%: conda conda-rsync
 	docker run --rm -it -e CPU_COUNT=4 -u 1001 -v $(PWD)/conda-bld:/io/conda-bld -v $(PWD)/conda-recipes:/conda-recipes -v /tmp/conda-pkgs:/opt/conda/pkgs conda-pkgs build-conda /conda-recipes/$*
 
