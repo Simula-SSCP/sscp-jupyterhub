@@ -1,4 +1,4 @@
-FROM quay.io/condaforge/miniforge3:25.3.0-1
+FROM quay.io/condaforge/miniforge3:26.1.1-3
 # USER root
 RUN apt-get -y update && apt-get -y install rsync patch git make
 RUN mamba install -yq anaconda-client conda-build rattler-build

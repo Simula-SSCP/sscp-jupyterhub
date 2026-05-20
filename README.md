@@ -14,6 +14,8 @@ You need these tools set up:
 - [docker] client (engine not required, but can be used)
 - [helm] to deploy and update jupyterhub
 - [git-crypt] for encrypting credentials in config
+- [kubectx] Power tools for kubectl
+
 
 [gcloud cli]: https://cloud.google.com/cli
 [OpenTofu]: https://opentofu.org
@@ -21,6 +23,8 @@ You need these tools set up:
 [docker]: https://www.docker.com
 [helm]: https://helm.sh
 [git-crypt]: https://github.com/AGWA/git-crypt
+[kubectx]: https://github.com/ahmetb/kubectx
+
 
 ## Structure
 
@@ -118,12 +122,56 @@ If using autopilot,
 
 Once the cluster is created, you can run
 
-```
+```shell
 make kube-creds
 ```
 
 to load the credentials into your `kubectl` config for accessing the cluster directly with `kubectl`.
+You might need to first [install kubectl plugin for gcloud](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl#install_plugin) if you haven't already.
 This will have the name matching `KUBE_CTX` in the makefile (currently: `sss` for "Simula Summer School").
+
+
+### Building new conda packages for carputils and opencarp
+You might need to update the version of OpenCARP and Carputils for the new year, because of the petsc version pinning. To do this, update the version and sha256 in `conda-recipes/opencarp/recipe.yaml` and the rev in `conda-recipes/carputils/recipe.yaml` to match the new release. Then you can build the packages using a VM at Google cloud. 
+
+To spin up a builder VM, we first need to create the firewall rules to allow SSH, and then provision the VM instance itself. Run these commands to do this:
+```shell
+make builder-firewall-rule
+make builder-new
+```
+Next run 
+```
+make builder-env
+```
+to see the new environment variables to connect to the builder VM (you can also run `eval $(make builder-env)` to set them in your current shell).
+Next start the build instance
+```shell
+make builder-start
+```
+Create a new folder called `conda-bld` in your root directory.
+and build the packages with
+
+```shell
+make conda/opencarp
+make conda/carputils
+```
+(I also had to change some permission on a folder using this command `gcloud compute ssh --project sscp-2026 --zone europe-west1-b sss-builder -- 'sudo chown -R 1001:1001 /Users/finsberg/local/src/sscp-jupyterhub/conda-bld'` to make it work).
+
+Next you fetch the built packages to your local machine with
+
+```shell
+make conda-fetch
+```
+
+and then login to anaconda and upload the packages to your channel with
+
+```shell
+anaconda login
+
+# Upload the packages to your channel
+anaconda upload conda-bld/linux-64/opencarp-*.conda
+anaconda upload conda-bld/linux-64/carputils-*.conda
+```
 
 ### Building the image
 

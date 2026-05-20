@@ -1,4 +1,4 @@
-FROM ghcr.io/prefix-dev/pixi:0.46.0 AS build
+FROM ghcr.io/prefix-dev/pixi:0.67.0 AS build
 
 # copy source code, pixi.toml and pixi.lock to the container
 RUN mkdir /opt/pixi
@@ -53,19 +53,20 @@ COPY --from=build /shell-hook.sh /shell-hook.sh
 ENV PATH=$CONDA_DIR/bin:$PATH
 COPY condarc $CONDA_DIR/.condarc
 
-USER $NB_UID
+# USER $NB_UID
 
 # enable nbdime globally, configure carputils
 USER root
 RUN cusettings $CONDA_DIR/etc/carputils-settings.yml
 RUN nbdime config-git --enable --system
-USER $NB_UID
+# USER $NB_UID
 
 # fenics 3d plotting doesn't like mpl 3
 # RUN pip install --no-cache 'matplotlib<3'
 
 COPY pull_server_ext.py ${CONDA_DIR}/lib/python3.12/site-packages/pull_server_ext.py
 COPY pull-button.js /tmp/
+COPY pull_server_ext.json ${CONDA_DIR}/etc/jupyter/jupyter_server_config.d/pull_server_ext.json
 RUN jupyter server extension enable --sys-prefix pull_server_ext
 
 # disable "Jupyter news" pop-up

@@ -1,0 +1,9 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: hub-certs
+spec:
+  domains:
+    - sscp.finsberg.xyz
+    - grafana.sscp.finsberg.xyz
+    - prometheus.sscp.finsberg.xyz

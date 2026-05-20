@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 1.7"
   backend "gcs" {
-    bucket = "tf-state-sscp-2025"
+    bucket = "tf-state-sscp-2026"
     prefix = "tofu/state"
   }
   required_providers {
@@ -22,7 +22,7 @@ terraform {
 data "google_client_config" "provider" {}
 
 provider "google" {
-  project = "sscp-2025"
+  project = "sscp-2026"
   region  = "europe-west1"
   zone    = "europe-west1-b"
 }

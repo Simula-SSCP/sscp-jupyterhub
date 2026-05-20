@@ -15,14 +15,14 @@ jupyterhub:
     annotations:
       ingress.kubernetes.io/proxy-body-size: 64m
       kubernetes.io/ingress.class: gce
-      networking.gke.io/managed-certificates: hub
+      networking.gke.io/managed-certificates: hub-certs
       # kubernetes.io/tls-acme: "true"
     hosts:
-      - sscp.minrk.net
+      - sscp.finsberg.xyz
     # using gce for tls
     # tls:
     #   - hosts:
-    #       - sscp.minrk.net
+    #       - sscp.finsberg.xyz
     # secretName: tls-jupyterhub
 
   singleuser:
@@ -33,8 +33,8 @@ jupyterhub:
     storage:
       homeMountPath: /home/user
     image:
-      name: europe-west1-docker.pkg.dev/sscp-2025/sss/simula-summer-school
-      tag: "2025"
+      name: europe-west1-docker.pkg.dev/sscp-2026/sss/simula-summer-school
+      tag: "2026"
       pullPolicy: Always
     memory:
       limit: 2G
@@ -105,14 +105,14 @@ grafana:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: gce
-      networking.gke.io/managed-certificates: hub
-      kubernetes.io/tls-acme: "true"
+      networking.gke.io/managed-certificates: hub-certs
+      # kubernetes.io/tls-acme: "true"
     hosts:
-      - grafana.sscp.minrk.net
+      - grafana.sscp.finsberg.xyz
     # cert autopilot
     # tls:
     #   - hosts:
-    #       - grafana.sscp.minrk.net
+    #       - grafana.sscp.finsberg.xyz
     # secretName: tls-grafana
   persistence:
     size: 2Gi
@@ -126,7 +126,7 @@ grafana:
         - name: prometheus
           orgId: 1
           type: prometheus
-          url: https://prometheus.sscp.minrk.net
+          url: https://prometheus.sscp.finsberg.xyz
           isDefault: true
           editable: false
 
@@ -151,13 +151,13 @@ prometheus:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: gce
-        networking.gke.io/managed-certificates: hub
+        networking.gke.io/managed-certificates: hub-certs
         # kubernetes.io/tls-acme: "true"
       hosts:
-        - prometheus.sscp.minrk.net
+        - prometheus.sscp.finsberg.xyz
       # tls:
       #   - hosts:
-      #       - prometheus.sscp.minrk.net
+      #       - prometheus.sscp.finsberg.xyz
       # secretName: tls-prometheus
   kube-state-metrics:
     metricLabelsAllowlist:
