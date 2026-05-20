@@ -12,11 +12,12 @@ jupyterhub:
         cloud.google.com/backend-config: '{"default": "allow-websockets"}'
   ingress:
     enabled: true
+    ingressClassName: gce
     annotations:
       ingress.kubernetes.io/proxy-body-size: 64m
-      kubernetes.io/ingress.class: gce
+      # kubernetes.io/ingress.class: gce
       networking.gke.io/managed-certificates: hub-certs
-      kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-jupyterhub-a9uu66bs"
+      # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-jupyterhub-a9uu66bs"
       # kubernetes.io/tls-acme: "true"
     hosts:
       - sscp.finsberg.xyz
@@ -104,10 +105,11 @@ grafana:
       enabled: true
   ingress:
     enabled: true
+    ingressClassName: gce
     annotations:
-      kubernetes.io/ingress.class: gce
+      # kubernetes.io/ingress.class: gce
       networking.gke.io/managed-certificates: hub-certs
-      kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-hub-grafana-ogv1k9ar"
+      # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-hub-grafana-ogv1k9ar"
       # kubernetes.io/tls-acme: "true"
     hosts:
       - grafana.sscp.finsberg.xyz
@@ -151,10 +153,11 @@ prometheus:
       hub.jupyter.org/network-access-hub: "true"
     ingress:
       enabled: true
+      ingressClassName: gce
       annotations:
-        kubernetes.io/ingress.class: gce
+        # kubernetes.io/ingress.class: gce
         networking.gke.io/managed-certificates: hub-certs
-        kubernetes.io/ingress.global-static-ip-name: "k8s2-fs-wkh8jnf6-jupyterhub-hub-prometheus-server-mswprzqv"
+        # kubernetes.io/ingress.global-static-ip-name: "k8s2-fs-wkh8jnf6-jupyterhub-hub-prometheus-server-mswprzqv"
         # kubernetes.io/tls-acme: "true"
       hosts:
         - prometheus.sscp.finsberg.xyz
