@@ -6,26 +6,26 @@ jupyterhub:
     # chp:
     # incompatible with autopilot
     #   nodeSelector: *coreNodeSelector
-    service:
-      type: ClusterIP
-      annotations:
-        cloud.google.com/backend-config: '{"default": "allow-websockets"}'
+    # service:
+    #   type: ClusterIP
+    #   annotations:
+    #     cloud.google.com/backend-config: '{"default": "allow-websockets"}'
   ingress:
     enabled: true
-    ingressClassName: gce
+    ingressClassName: nginx
     annotations:
       ingress.kubernetes.io/proxy-body-size: 64m
       # kubernetes.io/ingress.class: gce
-      networking.gke.io/managed-certificates: hub-certs
+      # networking.gke.io/managed-certificates: hub-certs
       # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-jupyterhub-a9uu66bs"
-      # kubernetes.io/tls-acme: "true"
+      kubernetes.io/tls-acme: "true"
     hosts:
-      - sscp.finsberg.xyz
+      - sscp.simula.no
     # using gce for tls
-    # tls:
-    #   - hosts:
-    #       - sscp.finsberg.xyz
-    # secretName: tls-jupyterhub
+    tls:
+      - hosts:
+          - sscp.simula.no
+        secretName: tls-jupyterhub
 
   singleuser:
     events: true
@@ -71,6 +71,9 @@ jupyterhub:
       OAuthenticator:
         allow_all: false
         allow_existing_users: true
+        allowed_organizations:
+          - scientificcomputing
+          - ComputationalPhysiology
       Spawner:
         http_timeout: 60
 
@@ -105,19 +108,19 @@ grafana:
       enabled: true
   ingress:
     enabled: true
-    ingressClassName: gce
+    ingressClassName: nginx
     annotations:
       # kubernetes.io/ingress.class: gce
-      networking.gke.io/managed-certificates: hub-certs
+      # networking.gke.io/managed-certificates: hub-certs
       # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-hub-grafana-ogv1k9ar"
-      # kubernetes.io/tls-acme: "true"
+      kubernetes.io/tls-acme: "true"
     hosts:
-      - grafana.sscp.finsberg.xyz
+      - grafana.sscp.simula.no
     # cert autopilot
-    # tls:
-    #   - hosts:
-    #       - grafana.sscp.finsberg.xyz
-    # secretName: tls-grafana
+    tls:
+      - hosts:
+          - grafana.sscp.simula.no
+        secretName: tls-grafana
   persistence:
     size: 2Gi
     enabled: true
@@ -130,7 +133,7 @@ grafana:
         - name: prometheus
           orgId: 1
           type: prometheus
-          url: https://prometheus.sscp.finsberg.xyz
+          url: https://prometheus.sscp.simula.no
           isDefault: true
           editable: false
 
@@ -153,18 +156,18 @@ prometheus:
       hub.jupyter.org/network-access-hub: "true"
     ingress:
       enabled: true
-      ingressClassName: gce
+      ingressClassName: nginx
       annotations:
         # kubernetes.io/ingress.class: gce
-        networking.gke.io/managed-certificates: hub-certs
+        # networking.gke.io/managed-certificates: hub-certs
         # kubernetes.io/ingress.global-static-ip-name: "k8s2-fs-wkh8jnf6-jupyterhub-hub-prometheus-server-mswprzqv"
-        # kubernetes.io/tls-acme: "true"
+        kubernetes.io/tls-acme: "true"
       hosts:
-        - prometheus.sscp.finsberg.xyz
-      # tls:
-      #   - hosts:
-      #       - prometheus.sscp.finsberg.xyz
-      # secretName: tls-prometheus
+        - prometheus.sscp.simula.no
+      tls:
+        - hosts:
+            - prometheus.sscp.simula.no
+          secretName: tls-prometheus
   kube-state-metrics:
     metricLabelsAllowlist:
       - pods=[app,component,hub.jupyter.org/username]
