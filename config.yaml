@@ -20,11 +20,11 @@ jupyterhub:
       # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-jupyterhub-a9uu66bs"
       kubernetes.io/tls-acme: "true"
     hosts:
-      - sscp.simula.no
+      - sscp.finsberg.xyz
     # using gce for tls
     tls:
       - hosts:
-          - sscp.simula.no
+          - sscp.finsberg.xyz
         secretName: tls-jupyterhub
 
   singleuser:
@@ -68,9 +68,19 @@ jupyterhub:
     config:
       JupyterHub:
         authenticate_prometheus: false
-      OAuthenticator:
+        authenticator_class: github
+      GitHubOAuthenticator:
         allow_all: false
         allow_existing_users: true
+        admin_users:
+          - finsberg
+          - nforsch
+        allowed_organizations:
+          - scientificcomputing
+          - ComputationalPhysiology
+      # OAuthenticator:
+      #   allow_all: false
+      #   allow_existing_users: true
         # allowed_users:
         #   - finsberg
         #   - nforsch
@@ -85,10 +95,10 @@ jupyterhub:
         #   - lepmik
         #   - kjmccabe
         #   - nicolossus
-      GitHubOAuthenticator:
-        allowed_organizations:
-          - scientificcomputing
-          - ComputationalPhysiology
+      # GitHubOAuthenticator:
+      #   allowed_organizations:
+      #     - scientificcomputing
+      #     - ComputationalPhysiology
       Spawner:
         http_timeout: 60
 
@@ -130,11 +140,11 @@ grafana:
       # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-hub-grafana-ogv1k9ar"
       kubernetes.io/tls-acme: "true"
     hosts:
-      - grafana.sscp.simula.no
+      - grafana.sscp.finsberg.xyz
     # cert autopilot
     tls:
       - hosts:
-          - grafana.sscp.simula.no
+          - grafana.sscp.finsberg.xyz
         secretName: tls-grafana
   persistence:
     size: 2Gi
@@ -148,7 +158,7 @@ grafana:
         - name: prometheus
           orgId: 1
           type: prometheus
-          url: https://prometheus.sscp.simula.no
+          url: https://prometheus.sscp.finsberg.xyz
           isDefault: true
           editable: false
 
@@ -178,10 +188,10 @@ prometheus:
         # kubernetes.io/ingress.global-static-ip-name: "k8s2-fs-wkh8jnf6-jupyterhub-hub-prometheus-server-mswprzqv"
         kubernetes.io/tls-acme: "true"
       hosts:
-        - prometheus.sscp.simula.no
+        - prometheus.sscp.finsberg.xyz
       tls:
         - hosts:
-            - prometheus.sscp.simula.no
+            - prometheus.sscp.finsberg.xyz
           secretName: tls-prometheus
   kube-state-metrics:
     metricLabelsAllowlist:
