@@ -71,6 +71,21 @@ jupyterhub:
       OAuthenticator:
         allow_all: false
         allow_existing_users: true
+        # allowed_users:
+        #   - finsberg
+        #   - nforsch
+        #   - adajel
+        #   - cdaversin
+        #   - hareval
+        #   - ingvilddevold
+        #   - jorgensd
+        #   - giuliamonopoli
+        #   - admcculloch
+        #   - sundnes
+        #   - lepmik
+        #   - kjmccabe
+        #   - nicolossus
+      GitHubOAuthenticator:
         allowed_organizations:
           - scientificcomputing
           - ComputationalPhysiology
