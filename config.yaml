@@ -72,6 +72,9 @@ jupyterhub:
       GitHubOAuthenticator:
         allow_all: false
         allow_existing_users: true
+        scope:
+          - "read:user"
+          - "read:org"
         admin_users:
           - finsberg
           - nforsch
