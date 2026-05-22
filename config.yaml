@@ -39,8 +39,8 @@ jupyterhub:
       tag: "2026"
       pullPolicy: Always
     memory:
-      limit: 2G
-      guarantee: 2G
+      limit: 4G
+      guarantee: 4G
     cpu:
       limit: 1
       guarantee: 0.5
