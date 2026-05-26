@@ -20,11 +20,11 @@ jupyterhub:
       # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-jupyterhub-a9uu66bs"
       kubernetes.io/tls-acme: "true"
     hosts:
-      - sscp.finsberg.xyz
+      - sscp.simula.no
     # using gce for tls
     tls:
       - hosts:
-          - sscp.finsberg.xyz
+          - sscp.simula.no
         secretName: tls-jupyterhub
 
   singleuser:
@@ -42,8 +42,8 @@ jupyterhub:
       limit: 4G
       guarantee: 4G
     cpu:
-      limit: 1
-      guarantee: 0.5
+      limit: 2
+      guarantee: 1
     uid: 1001 # match image
     extraEnv:
       CULL_CONNECTED: "1"
@@ -109,7 +109,7 @@ jupyterhub:
     podPriority:
       enabled: true
     userPlaceholder:
-      enabled: true
+      enabled: false
       replicas: 10
     # userScheduler, affinity incompatible with autopilot
     userScheduler:
@@ -143,14 +143,14 @@ grafana:
       # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-hub-grafana-ogv1k9ar"
       kubernetes.io/tls-acme: "true"
     hosts:
-      - grafana.sscp.finsberg.xyz
+      - grafana.sscp.simula.no
     # cert autopilot
     tls:
       - hosts:
-          - grafana.sscp.finsberg.xyz
+          - grafana.sscp.simula.no
         secretName: tls-grafana
   persistence:
-    size: 2Gi
+    size: 4Gi
     enabled: true
     accessModes:
       - ReadWriteOnce
@@ -161,7 +161,7 @@ grafana:
         - name: prometheus
           orgId: 1
           type: prometheus
-          url: https://prometheus.sscp.finsberg.xyz
+          url: https://prometheus.sscp.simula.no
           isDefault: true
           editable: false
 
@@ -191,10 +191,10 @@ prometheus:
         # kubernetes.io/ingress.global-static-ip-name: "k8s2-fs-wkh8jnf6-jupyterhub-hub-prometheus-server-mswprzqv"
         kubernetes.io/tls-acme: "true"
       hosts:
-        - prometheus.sscp.finsberg.xyz
+        - prometheus.sscp.simula.no
       tls:
         - hosts:
-            - prometheus.sscp.finsberg.xyz
+            - prometheus.sscp.simula.no
           secretName: tls-prometheus
   kube-state-metrics:
     metricLabelsAllowlist:
