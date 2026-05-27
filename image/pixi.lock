@@ -489,7 +489,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ruamel.yaml.clib-0.2.15-py312h5253ce2_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ruff-0.15.13-h994f30f_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/scalapack-2.2.0-h13b89aa_6.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/scifem-0.18.1-py312h4bc29b8_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/scifem-0.19.0-py312h4bc29b8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/scikit-learn-1.8.0-np2py312h3226591_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/scikit-umfpack-0.4.2-py312h558cdc8_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/scipy-1.17.1-py312h54fa4ab_0.conda
@@ -7068,10 +7068,10 @@ packages:
   license_family: BSD
   size: 1960099
   timestamp: 1771828704001
-- conda: https://conda.anaconda.org/conda-forge/linux-64/scifem-0.18.1-py312h4bc29b8_0.conda
+- conda: https://conda.anaconda.org/conda-forge/linux-64/scifem-0.19.0-py312h4bc29b8_0.conda
   noarch: python
-  sha256: 72cdabb2cb2eb1f085af68554ec9e4feaa09a1cff58efecf81b0e4c6b8a53dc7
-  md5: 3c8008cda4a604da2a7ae41d8635f118
+  sha256: e6d41fb44756cfa3d1ef5698f36899a8d2a02fa43df70c33cdf016dd0eef6c2c
+  md5: 609d21b41c68dd25743c02c5a6d7679b
   depends:
   - python
   - fenics-basix
@@ -7079,25 +7079,24 @@ packages:
   - packaging
   - adios2 * mpi_mpich_*
   - scipy
+  - libstdcxx >=14
   - libgcc >=14
   - __glibc >=2.17,<3.0.a0
-  - libstdcxx >=14
   - fenics-basix-nanobind-abi 2.16.*
-  - mpich >=5.0,<6.0a0
-  - fenics-libbasix >=0.10.0,<0.10.1.0a0
-  - petsc >=3.25.1,<3.26.0a0
-  - petsc * real_*
   - nanobind-abi ==16
-  - fenics-libdolfinx >=0.10.0,<0.10.1.0a0
-  - mpich
   - _python_abi3_support 1.*
   - cpython >=3.12
+  - mpich >=5.0,<6.0a0
+  - petsc >=3.25.1,<3.26.0a0
+  - petsc * real_*
+  - fenics-libdolfinx >=0.10.0,<0.10.1.0a0
+  - mpich
+  - fenics-libbasix >=0.10.0,<0.10.1.0a0
   constrains:
   - h5py * mpi_mpich_*
   license: MIT
-  license_family: MIT
-  size: 207779
-  timestamp: 1779263514602
+  size: 207743
+  timestamp: 1779857467019
 - conda: https://conda.anaconda.org/conda-forge/linux-64/scikit-learn-1.8.0-np2py312h3226591_1.conda
   sha256: 23c643c37fafa14ba3f2b7a407126ea5e732a3655ea8157cf9f977098f863448
   md5: 38decbeae260892040709cafc0514162
