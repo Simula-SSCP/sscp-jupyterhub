@@ -6,24 +6,26 @@ jupyterhub:
     # chp:
     # incompatible with autopilot
     #   nodeSelector: *coreNodeSelector
-    service:
-      type: ClusterIP
-      annotations:
-        cloud.google.com/backend-config: '{"default": "allow-websockets"}'
+    # service:
+    #   type: ClusterIP
+    #   annotations:
+    #     cloud.google.com/backend-config: '{"default": "allow-websockets"}'
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
       ingress.kubernetes.io/proxy-body-size: 64m
-      kubernetes.io/ingress.class: gce
-      networking.gke.io/managed-certificates: hub-certs
-      # kubernetes.io/tls-acme: "true"
+      # kubernetes.io/ingress.class: gce
+      # networking.gke.io/managed-certificates: hub-certs
+      # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-jupyterhub-a9uu66bs"
+      kubernetes.io/tls-acme: "true"
     hosts:
-      - sscp.finsberg.xyz
+      - sscp.simula.no
     # using gce for tls
-    # tls:
-    #   - hosts:
-    #       - sscp.finsberg.xyz
-    # secretName: tls-jupyterhub
+    tls:
+      - hosts:
+          - sscp.simula.no
+        secretName: tls-jupyterhub
 
   singleuser:
     events: true
@@ -37,11 +39,11 @@ jupyterhub:
       tag: "2026"
       pullPolicy: Always
     memory:
-      limit: 2G
-      guarantee: 2G
+      limit: 4G
+      guarantee: 4G
     cpu:
-      limit: 1
-      guarantee: 0.5
+      limit: 2
+      guarantee: 1
     uid: 1001 # match image
     extraEnv:
       CULL_CONNECTED: "1"
@@ -66,9 +68,40 @@ jupyterhub:
     config:
       JupyterHub:
         authenticate_prometheus: false
-      OAuthenticator:
+        authenticator_class: github
+      GitHubOAuthenticator:
         allow_all: false
         allow_existing_users: true
+        scope:
+          - "read:user"
+          - "read:org"
+        admin_users:
+          - finsberg
+          - nforsch
+        allowed_organizations:
+          - scientificcomputing
+          - ComputationalPhysiology
+      # OAuthenticator:
+      #   allow_all: false
+      #   allow_existing_users: true
+        # allowed_users:
+        #   - finsberg
+        #   - nforsch
+        #   - adajel
+        #   - cdaversin
+        #   - hareval
+        #   - ingvilddevold
+        #   - jorgensd
+        #   - giuliamonopoli
+        #   - admcculloch
+        #   - sundnes
+        #   - lepmik
+        #   - kjmccabe
+        #   - nicolossus
+      # GitHubOAuthenticator:
+      #   allowed_organizations:
+      #     - scientificcomputing
+      #     - ComputationalPhysiology
       Spawner:
         http_timeout: 60
 
@@ -76,7 +109,7 @@ jupyterhub:
     podPriority:
       enabled: true
     userPlaceholder:
-      enabled: true
+      enabled: false
       replicas: 10
     # userScheduler, affinity incompatible with autopilot
     userScheduler:
@@ -103,19 +136,21 @@ grafana:
       enabled: true
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
-      kubernetes.io/ingress.class: gce
-      networking.gke.io/managed-certificates: hub-certs
-      # kubernetes.io/tls-acme: "true"
+      # kubernetes.io/ingress.class: gce
+      # networking.gke.io/managed-certificates: hub-certs
+      # kubernetes.io/ingress.global-static-ip-name: "k8s2-ts-wkh8jnf6-jupyterhub-hub-grafana-ogv1k9ar"
+      kubernetes.io/tls-acme: "true"
     hosts:
-      - grafana.sscp.finsberg.xyz
+      - grafana.sscp.simula.no
     # cert autopilot
-    # tls:
-    #   - hosts:
-    #       - grafana.sscp.finsberg.xyz
-    # secretName: tls-grafana
+    tls:
+      - hosts:
+          - grafana.sscp.simula.no
+        secretName: tls-grafana
   persistence:
-    size: 2Gi
+    size: 4Gi
     enabled: true
     accessModes:
       - ReadWriteOnce
@@ -126,7 +161,7 @@ grafana:
         - name: prometheus
           orgId: 1
           type: prometheus
-          url: https://prometheus.sscp.finsberg.xyz
+          url: https://prometheus.sscp.simula.no
           isDefault: true
           editable: false
 
@@ -149,16 +184,18 @@ prometheus:
       hub.jupyter.org/network-access-hub: "true"
     ingress:
       enabled: true
+      ingressClassName: nginx
       annotations:
-        kubernetes.io/ingress.class: gce
-        networking.gke.io/managed-certificates: hub-certs
-        # kubernetes.io/tls-acme: "true"
+        # kubernetes.io/ingress.class: gce
+        # networking.gke.io/managed-certificates: hub-certs
+        # kubernetes.io/ingress.global-static-ip-name: "k8s2-fs-wkh8jnf6-jupyterhub-hub-prometheus-server-mswprzqv"
+        kubernetes.io/tls-acme: "true"
       hosts:
-        - prometheus.sscp.finsberg.xyz
-      # tls:
-      #   - hosts:
-      #       - prometheus.sscp.finsberg.xyz
-      # secretName: tls-prometheus
+        - prometheus.sscp.simula.no
+      tls:
+        - hosts:
+            - prometheus.sscp.simula.no
+          secretName: tls-prometheus
   kube-state-metrics:
     metricLabelsAllowlist:
       - pods=[app,component,hub.jupyter.org/username]
