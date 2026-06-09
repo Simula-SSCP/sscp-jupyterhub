@@ -70,7 +70,7 @@ jupyterhub:
         authenticate_prometheus: false
         authenticator_class: github
       GitHubOAuthenticator:
-        allow_all: false
+        allow_all: true
         allow_existing_users: true
         scope:
           - "read:user"
@@ -78,9 +78,9 @@ jupyterhub:
         admin_users:
           - finsberg
           - nforsch
-        allowed_organizations:
-          - scientificcomputing
-          - ComputationalPhysiology
+        # allowed_organizations:
+        #   - scientificcomputing
+        #   - ComputationalPhysiology
       # OAuthenticator:
       #   allow_all: false
       #   allow_existing_users: true
