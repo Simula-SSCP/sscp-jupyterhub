@@ -47,9 +47,26 @@ def pull_repo(repo_url):
         shutil.rmtree(repo_path)
 
     app_log.info("Pulling %s", repo_url)
-    gp = GitPuller(repo_url, repo_dir, branch=branch_name)
-    for line in gp.pull():
-        app_log.info(line.rstrip("\n"))
+
+    import time
+
+    max_retries = 5
+    for attempt in range(max_retries):
+        try:
+            gp = GitPuller(repo_url, repo_dir, branch=branch_name)
+            for line in gp.pull():
+                app_log.info(line.rstrip("\n"))
+            break  # Success, exit the loop
+        except Exception as e:
+            if "Recent .git/index.lock found" in str(e):
+                app_log.warning(
+                    "Git lock found, waiting to retry... (%d/%d)",
+                    attempt + 1,
+                    max_retries,
+                )
+                time.sleep(2)
+            else:
+                raise e  # Raise any other unexpected errors
 
 
 def pull_everything():
