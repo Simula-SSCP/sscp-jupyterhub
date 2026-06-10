@@ -5,6 +5,8 @@ A severely stripped-down version of data-8/nbpuller
 from concurrent.futures import ThreadPoolExecutor
 from functools import lru_cache
 from subprocess import check_output
+from pathlib import Path
+import shutil
 
 import requests
 from jupyter_server.base.handlers import JupyterHandler
@@ -34,6 +36,16 @@ def pull_repo(repo_url):
     if repo_dir.endswith(".git"):
         repo_dir = repo_dir[:-4]
 
+    repo_path = Path(repo_dir)
+
+    # If the folder exists, but does NOT contain a .git folder, it's the "Status 128" culprit.
+    if repo_path.exists() and not (repo_path / ".git").exists():
+        app_log.warning(
+            "Directory %s exists but is not a git repository. Removing it to prevent clone failure.",
+            repo_dir,
+        )
+        shutil.rmtree(repo_path)
+
     app_log.info("Pulling %s", repo_url)
     gp = GitPuller(repo_url, repo_dir, branch=branch_name)
     for line in gp.pull():
@@ -42,7 +54,7 @@ def pull_repo(repo_url):
 
 def pull_everything():
     r = requests.get(
-        "https://raw.githubusercontent.com/minrk/simula-summer-school/HEAD/repos.txt"
+        "https://raw.githubusercontent.com/Simula-SSCP/sscp-jupyterhub/HEAD/repos.txt"
     )
     r.raise_for_status()
     for line in r.text.splitlines():

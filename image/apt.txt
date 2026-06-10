@@ -10,7 +10,8 @@ nano
 sudo
 vim
 wget
-
+libgl1-mesa-dev
+mesa-utils
 # novnc
 # tightvncserver
 # novnc

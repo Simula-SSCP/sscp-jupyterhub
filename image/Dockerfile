@@ -79,6 +79,9 @@ USER root
 # setup entrypoint
 RUN ln -s $CONDA_DIR/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 USER $NB_UID
+ENV PYVISTA_JUPYTER_BACKEND="trame" \
+    DISPLAY=":99" \
+    LIBGL_ALWAYS_SOFTWARE=1
 ENTRYPOINT ["/bin/bash", "/shell-hook.sh"]
 CMD ["jupyter", "lab", "--ip=0.0.0.0"]
 
