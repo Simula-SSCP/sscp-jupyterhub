@@ -50,7 +50,7 @@ def pull_repo(repo_url):
 
     import time
 
-    max_retries = 5
+    max_retries = 10
     for attempt in range(max_retries):
         try:
             gp = GitPuller(repo_url, repo_dir, branch=branch_name)
@@ -64,7 +64,7 @@ def pull_repo(repo_url):
                     attempt + 1,
                     max_retries,
                 )
-                time.sleep(2)
+                time.sleep(5)
             else:
                 raise e  # Raise any other unexpected errors
 
