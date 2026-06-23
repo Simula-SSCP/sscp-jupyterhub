@@ -34,6 +34,7 @@ jupyterhub:
       blockWithIptables: false
     storage:
       homeMountPath: /home/user
+      capacity: 5Gi
     image:
       name: europe-west1-docker.pkg.dev/sscp-2026/sss/simula-summer-school
       tag: "2026"
@@ -109,8 +110,8 @@ jupyterhub:
     podPriority:
       enabled: true
     userPlaceholder:
-      enabled: false
-      replicas: 10
+      enabled: true
+      replicas: 0
     # userScheduler, affinity incompatible with autopilot
     userScheduler:
       enabled: false

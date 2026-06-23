@@ -76,7 +76,11 @@ resource "google_container_node_pool" "primary_nodes" {
   name       = "primary-node-pool"
   location   = local.location
   cluster    = google_container_cluster.cluster.name
-  node_count = 1
+  #node_count = 1
+  autoscaling {
+    min_node_count = 1
+    max_node_count = 20
+  }
 
   node_config {
     machine_type = "e2-standard-4"
