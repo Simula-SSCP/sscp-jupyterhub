@@ -71,7 +71,7 @@ jupyterhub:
         authenticate_prometheus: false
         authenticator_class: github
       GitHubOAuthenticator:
-        allow_all: true
+        allow_all: false
         allow_existing_users: true
         scope:
           - "read:user"
